@@ -1,8 +1,6 @@
 package college.edu.ness.tomer;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 
 public class IOUtils {
 
@@ -19,12 +17,41 @@ public class IOUtils {
             e.printStackTrace();
         }
         finally {
-          if (outputStream!=null)
-              try {
-                  outputStream.close();
-              } catch (IOException e) {
-                  e.printStackTrace();
-              }
+         close(outputStream);
+        }
+    }
+
+
+    public static String readFromFile(String path){
+        StringBuilder builder = new StringBuilder();
+        BufferedReader reader = null;
+        try {
+            String lineSep = "\n";
+             reader =
+                    new BufferedReader(new FileReader(path));
+            String line;
+            while ((line = reader.readLine())!= null){
+                builder.append(line).append(lineSep);
+            }
+            return builder.toString();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
+            close(reader);
+        }
+
+        return null;
+    }
+
+    private static void close(Closeable c){
+        try {
+            if (c!=null)
+                c.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
