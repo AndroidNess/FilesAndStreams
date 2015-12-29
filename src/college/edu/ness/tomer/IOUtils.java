@@ -55,6 +55,30 @@ public class IOUtils {
         return null;
     }
 
+    public static String read(InputStream in){
+        StringBuilder builder = new StringBuilder();
+        BufferedReader reader = null;
+        try {
+            String lineSep = "\n";
+            reader =
+                    new BufferedReader(new InputStreamReader(in));
+            String line;
+            while ((line = reader.readLine())!= null){
+                builder.append(line).append(lineSep);
+            }
+            return builder.toString();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
+            close(reader);
+        }
+
+        return null;
+    }
+
     /**
      * Copy a file from the source to the destination
      * @param from
